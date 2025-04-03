@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mushroom Explorer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Unica+One&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Unica One', sans-serif;
+      height: 100%;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: radial-gradient(ellipse at center, #3b1f2b 0%, #1b0e15 100%);
+      color: #e0d5c2;
+    }
+
+    .container {
+      background-color: rgba(30, 10, 20, 0.8);
+      border: 2px solid #622f4c;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 0 30px rgba(189, 60, 139, 0.4);
+      text-align: center;
+      max-width: 600px;
+      width: 90%;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #ffadcc;
+      text-shadow: 0 0 10px #ff69b4;
+    }
+
+    p {
+      font-size: 1.2em;
+      color: #f4e4da;
+      margin-top: 10px;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 24px;
+      background-color: #ff69b4;
+      color: black;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px #ff69b4;
+    }
+
+    button:hover {
+      background-color: #ff85c1;
+      box-shadow: 0 0 20px #ffaad5;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+
+  <div class="container">
+    <h1>Mushroom Explorer</h1>
+    <p>Unlock the secrets of nature’s most mysterious fungi. Dive into the underground world with psychedelic vibes and earthy insight.</p>
+    <button>Start Exploring</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const fontSize = 26;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = Array(columns).fill(1);
+    const mushroom = '🍄';
+
+    function draw() {
+      // Semi-transparent black background to fade the trail
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#ff69b4'; // Glowing pink mushrooms
+      ctx.font = `${fontSize}px serif`;
+
+      for (let i = 0; i < drops.length; i++) {
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
+
+        ctx.fillText(mushroom, x, y);
+
+        // Random reset
+        if (y > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 60);
+
+    // Responsive canvas
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
